@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>加速度計</h1>
+<p>X轴加速度: <span id="accelerationX"></span></p>
+<p>Y轴加速度: <span id="accelerationY"></span></p>
+<p>Z轴加速度: <span id="accelerationZ"></span></p>
+<script>
+    if (typeof DeviceMotionEvent.requestPermission === 'function') {
+        // iOS 13+
+        DeviceMotionEvent.requestPermission()
+            .then(response => {
+                if (response == 'granted') {
+                    window.addEventListener('devicemotion', (e) => {
+                        // 用 e 做一些事情
+                        if (window.DeviceMotionEvent) {
+                            window.addEventListener('devicemotion', function(event) {
+                                var accelerationX = event.acceleration.x;
+                                var accelerationY = event.acceleration.y;
+                                var accelerationZ = event.acceleration.z;
+
+                                document.getElementById('accelerationX').textContent = accelerationX;
+                                document.getElementById('accelerationY').textContent = accelerationY;
+                                document.getElementById('accelerationZ').textContent = accelerationZ;
+                            });
+                        } else {
+                            alert("not sup Device Motion API");
+                        }
+
+                    })
+                }
+            })
+            .catch(e=>console.log(e.message))
+    } else {
+        // non iOS 13+
+        window.addEventListener('devicemotion', (e) => {
+            // 用 e 做一些事情
+
+            if (window.DeviceMotionEvent) {
+                window.addEventListener('devicemotion', function(event) {
+                    var accelerationX = event.acceleration.x;
+                    var accelerationY = event.acceleration.y;
+                    var accelerationZ = event.acceleration.z;
+
+                    document.getElementById('accelerationX').textContent = accelerationX;
+                    document.getElementById('accelerationY').textContent = accelerationY;
+                    document.getElementById('accelerationZ').textContent = accelerationZ;
+                });
+            } else {
+                alert("not sup Device Motion API");
+            }
+        })
+    }
+
+</script>
+</body>
+</html>
